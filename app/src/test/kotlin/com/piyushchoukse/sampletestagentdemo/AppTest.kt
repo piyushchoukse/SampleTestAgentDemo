@@ -6,6 +6,8 @@ package com.piyushchoukse.sampletestagentdemo
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
+import java.io.ByteArrayOutputStream
+import java.io.PrintStream
 
 class AppTest {
     @Test
@@ -42,5 +44,19 @@ class AppTest {
         val uiText = uiModel.renderAddition(2, 2)
 
         assertEquals("2 + 2 = 4", uiText)
+    }
+
+    @Test
+    fun main_printsExpectedEquation() {
+        val originalOut = System.out
+        val capturedOut = ByteArrayOutputStream()
+        System.setOut(PrintStream(capturedOut))
+        try {
+            main()
+        } finally {
+            System.setOut(originalOut)
+        }
+
+        assertEquals("2 + 2 = 4", capturedOut.toString().trim())
     }
 }
